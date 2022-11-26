@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Band</title>
+    <link rel="icon" href="https://media.dau.edu.vn/Media/2_SVDAU/Images/dau-csv12982278-5-e.png" type="image/x-icon" />
+    <link rel="stylesheet" href="{{url_for('static',filename='/fonts/themify-icons/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/responsive.css')}}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static',filename='/js/dependancies/bootstrap-select-1.12.4/dist/css/bootstrap-select.min.css')}}">
+    <style>
+        *{
+            font-family: 'Noto Serif', serif;
+        }
+        .bootstrap-select.btn-group .dropdown-menu.inner{
+            width: 390px;
+        }
+        .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+            width: 390px;
+            height:45px;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+
+            <ul id="nav">
+                <li><a href="#" class="ti-home"> Trang chủ </a></li>
+                <li><a href="#tour" class="ti-video-camera"> Nhận dạng</a></li>
+                
+                <li><a href="#contact" class="ti-control-shuffle"> Chuyển đổi</a></li>
+                <li>
+                    <a href="#">
+                        Nhiều hơn
+                        <i class="nav-arrow-down ti-angle-down"></i>
+                    </a>
+                    <ul class="subnav">
+                        <li><a href="#" class="ti-files"> Mới</a></li>
+                        <li><a href="#" class="ti-write"> Ghi chú</a></li>
+                        <li><a href="#" class="ti-settings"> Cài đặt</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="search-btn">
+                <i class="search-icon ti-search"></i>
+            </div>
+            <div id="mobile-menu" class="mobile-menu-btn">
+                <i class="ti-menu"></i>
+            </div>
+        </div>
+        <div class="logo">
+        </div>
+        
+        <!-- slide -->
+        <div id="slider">
+            <div class="wrapper">
+
+                <div class="slider">
+                  <div class="slider__inner">
+                    <div class="slider__item">
+                      <img class="slider__image" src="/static/images/slide1.jpg" alt="Image 1">
+                    </div>
+                    <div class="slider__item">
+                      <img class="slider__image" src="/static/images/slide2.jpg" alt="Image 2">  
+                    </div>
+                    <div class="slider__item">
+                      <img class="slider__image" src="/static/images/slide3.jpg" alt="Image 3">
+                    </div>
+                  </div> <!-- /slider__inner -->
+                </div> <!-- /slider -->
+            
+              </div>
+
+            <div class="text-content">
+                <h2 class="text-heading">Chuyển đổi ngoại tệ</h2>
+                <div class="text-description"> 
+                    Nhận biết tiền Việt Nam và
+                </div>
+                <div class="text-description"> 
+                    chuyển đổi sang loại tiền tệ mong muốn.
+                </div>
+                <div class="text-convesion" style="padding-top: 30px;">
+                    Bạn sẽ luôn nhận được tỷ lệ chuyển đổi tốt nhất với HĐ, 
+                    
+                </div>
+                <div class="text-convesion">
+                    chúng tôi hỗ trợ nhận diện và chuyển đổi tiền Việt Nam
+                </div>
+
+                <div class="text-convesion">
+                     qua hàng chục loại tiền tệ khác.
+                </div>
+
+                <button class="timhieuthem">
+                    Tìm hiểu thêm >
+                </button>
+            </div>
+        
+        </div>
+
+        <div id="content">
+            
+            <div id="tour" class="tour-section">
+                <div class="content-section">
+                    <h2 class="section-heading text-white">Nhận diện tiền Việt Nam</h2>
+                    <p class="section-sub-heading text-white">Chọn hình thức nhận diện!</p>
+                    <div class="list-button">
+                        <button class="button-convert " id="btnVideo">VIDEO</button>
+                        <button class="button-convert " id="btnImage">HÌNH ẢNH</button>
+                    </div>
+                    <div class="form-video">
+                        <div class="video-heading">
+                        <video class="videoInsert" autoplay="true" id="videoElement"></video>
+                        </div>
+                        <canvas id="canvasOutput" style="display:none;"></canvas>
+                        <div class="video-ketqua">
+                            <div class="ketqua">
+                                <div class="giatritientext">
+                                    Mệnh giá tiền:
+                                </div>
+                                <div class="dochinhxactext">
+                                    Độ chính xác:
+                                </div>
+                                <div class="giatritien">
+
+                                </div>
+                                <div class="dochinhxac">
+
+                                </div>
+                                <div class="button-ketqua">
+                                    <button class="thongtintotien js-buy-tikets">Thông tin tờ tiền</button>
+                                    <button class="thongtintotien js-buy-tikets-s">
+                                        Thông tin xác suất</button>
+                                </div>
+                            </div>
+                            <div class="ketquachuyendoi">
+                                <div class="button-ketqua">
+
+                                    <select id="donvichuyendoi"
+                                    class="selectpicker countrypicker button-loaitien" data-live-search="true"
+                                    data-default="USD" data-flag="true"></select>
+
+
+                                </div>
+                                <div class="text-giatrichuyendoi">Giá trị sau khi chuyển đổi:</div>
+                                <div class="giatrichuyendoi">
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div id="contact" class="content-section">     
+                <h2 class="section-heading"><b>Chuyển đổi tiền tệ</b></h2>      
+            </div>
+        
+        </div>
+        
+        <div class="container">
+            <div class="row contact-content">
+                <div class="layout">
+                    <div>
+                        <select class="selectpicker countrypicker" id="currency-one" data-live-search="true"
+                            data-default="VND" data-flag="true"></select>
+                        <div><input type="text" class="number-convert" id="amount-one" placeholder="0" /> </div>
+                    </div>
+
+                    <div>
+                        <select class="selectpicker countrypicker" id="currency-two" data-live-search="true"
+                            data-default="USD" data-flag="true"></select>
+                        <div><input type="text" class="number-convert" id="amount-two" placeholder="0" /></div>
+                    </div>
+
+                    <div id="resultConversion">
+                    </div>
+                    <div id="resultInfoConversion">
+                    </div>
+                    <!-- <div class="swap-rate-container"> <div class="rate" id="rate"></div> </div> -->
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div id="footer">
+            <div class="socials-list">
+                <a href="#" class="ti-facebook"><i></i></a>
+                <a href="#" class="ti-instagram"><i></i></a>
+                <a href="#" class="ti-youtube"><i></i></a>
+                <a href="#" class="ti-pinterest"><i></i></a>
+                <a href="#" class="ti-twitter"><i></i></a>
+                <a href="#" class="ti-linkedin"><i></i></a>
+                
+                
+            </div>
+            <p class="copyright">Powered by: <a href="">HĐ</a></p>
+        </div>
+
+        
+    </div>
+
+    
+   
+    <div class="modal js-modal">
+        <div class="modal-container js-modal-container">
+            <div class="modal-close js-modal-close">
+                <i class="ti-close"></i>
+            </div>
+            <div class="modal-header">
+                <i class="ti-clipboard"></i>
+                 Thông tin tờ tiền
+            </div>
+            <div class="htthongtin">
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Quốc gia
+                    </div>
+                    <div class="hangketqua" id="quocgia">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Mệnh giá
+                    </div>
+                    <div class="hangketqua"  id="menhgia">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Đơn vị
+                    </div>
+                    <div class="hangketqua"  id="donvi">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Kích thước
+                    </div>
+                    <div class="hangketqua" id="kichthuoc">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Loại tiền
+                    </div>
+                    <div class="hangketqua" id="loaitien">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Màu chủ đạo
+                    </div>
+                    <div class="hangketqua" id="mauchudao">
+
+                    </div>
+                </div>
+                <div class="hangthongtin">
+                    <div class="hangthongtindau">
+                        Năm phát hành
+                    </div>
+                    <div class="hangketqua" id="namphathanh">
+
+                    </div>
+                </div>
+                
+                <div class="hangthongtinanh">
+                    <div class="hangthongtindauanh">
+                        Hình ảnh minh hoạ
+                    </div>
+                    <div class="hangketquaanh">
+
+                    </div>
+                    <img class="hangketquaanhtruoc" id="anhmattruoc">
+                    <img class="hangketquaanhsau" id="anhmatsau">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p class="modal-help">
+                    Need <a href="#" style="color: darkcyan;">Help?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal js-modal-s">
+        <div class="modal-container js-modal-container-s">
+            <div class="modal-close js-modal-close-s">
+                <i class="ti-close"></i>
+            </div>
+            <div class="modal-header">
+                <i class="ti-clipboard"></i>
+                Xác suất
+            </div>
+            <div class="htthongtin">
+                <div class="hangxacsuatchinh">
+                    <div class="hangxacsuatdauchinh">
+                        Loại tiền
+                    </div>
+                    <div class="hangxacsuatgiuachinh">
+                        Ảnh minh hoạ
+                    </div>
+                    <div class="hangxacsuatsauchinh">
+                        Xác suất
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        10.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-10.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        20.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-08.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        50.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-06.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        100.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-04.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        200.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-02.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+                        
+                    </div>
+                </div>
+                <div class="hangxacsuat">
+                    <div class="hangxacsuatdau">
+                        500.000VNĐ
+                    </div>
+                    <div class="hangxacsuatgiua">
+                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348.jpg" alt="">
+                    </div>
+                    <div class="hangxacsuatsau">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p class="modal-help">
+                    Need <a href="#" style="color: darkcyan;">Help?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buyBnts = document.querySelectorAll('.js-buy-tikets')
+        const modal = document.querySelector('.js-modal')
+        const modalClose = document.querySelector('.js-modal-close')
+        const modalContainer =document.querySelector('.js-modal-container')
+
+        function showBuyTickets() {
+            modal.classList.add('open')
+        }
+        
+        function hideBuyTickets() {
+            modal.classList.remove('open')
+        }
+
+        for (const buyBnt of buyBnts) {
+            buyBnt.addEventListener('click', showBuyTickets)
+        }
+
+        modalClose.addEventListener('click', hideBuyTickets)
+        modal.addEventListener('click', hideBuyTickets)
+        modalContainer.addEventListener('click', function (event) {
+            event.stopPropagation()
+        })   
+
+
+
+
+
+        // modal 2
+        const modal2 = document.querySelector('.js-modal-s')
+        const modalClose2 = document.querySelector('.js-modal-close-s')
+        const modalContainer2 =document.querySelector('.js-modal-container-s')
+        function showBuyTickets1() {
+            modal2.classList.add('open')
+        }
+        
+        function hideBuyTickets1() {
+            modal2.classList.remove('open')
+        }
+
+        const buyBnts2 = document.querySelector('.js-buy-tikets-s')
+        buyBnts2.addEventListener('click',showBuyTickets1);
+
+        modalClose2.addEventListener('click', hideBuyTickets1)
+        modal2.addEventListener('click', hideBuyTickets1)
+        modalContainer2.addEventListener('click', function (event) {
+            event.stopPropagation()
+        }) 
+
+
+        // slide 
+
+
+const ANIMATING_CLASS = 'slider__item--animating';
+
+const Slider = {
+  init() {
+    this.sliderEl = document.querySelector('.slider');
+    this.slideInnerEl = document.querySelector('.slider__inner');
+    this.sliderItemsEl = document.querySelectorAll('.slider__item');
+    this.offset = 0;
+    this.direction = 'left';
+    this.maxOffset = (this.sliderItemsEl.length - 1) * 100;
+
+    this.slideInnerEl.addEventListener('transitionend', this.onSliderTransitionEnd.bind(this));
+    setInterval(this.slide.bind(this), 3000);
+  },
+  slide() {
+    if (this.isMaxLeft()) {
+      this.direction = 'right';
+    } else if (this.isMaxRight()) {
+      this.direction = 'left';
+    }
+
+    this.moveSlider();
+  },
+  isMaxLeft() {
+    return this.offset <= -this.maxOffset;
+  },
+  isMaxRight() {
+    return this.offset >= 0;
+  },
+  getCurrentPage() {
+    if (this.offset < 0) {
+      return (this.offset * -1) / 100;
+    }
+
+    return this.offset / 100;
+  },
+  getSignal() {
+    return this.direction === 'left' ? -1 : 1;
+  },
+  onSliderTransitionEnd() {
+    const signal = this.getSignal();
+    const currentPage = this.getCurrentPage();
+
+    this.sliderItemsEl.forEach(element => element.classList.remove(ANIMATING_CLASS));
+  },
+  moveSlider() {
+    const signal = this.getSignal();
+    const currentPage = this.getCurrentPage();
+
+    this.offset = this.offset + (signal * 100);
+    this.sliderItemsEl[currentPage].classList.add(ANIMATING_CLASS);
+    this.sliderItemsEl[currentPage + (-1 * signal)].classList.add(ANIMATING_CLASS);
+    this.slideInnerEl.style.setProperty('--slider-offset', `${this.offset}%`);
+  }
+};
+
+const slider = Object.create(Slider);
+slider.init();
+
+
+    </script>
+    
+    <script>
+        var header = document.getElementById('header');
+        var mobileMenu = document.getElementById('mobile-menu');
+        var headerHeight = header.clientHeight;
+
+        // ĐÓNG MỞ MOBILE MENU
+        mobileMenu.onclick = function() {
+            var isClose = header.clientHeight === headerHeight;
+            if (isClose) {
+                header.style.height = 'auto';
+            }else {
+                header.style.height = null;
+            }
+        }
+        
+         // TỰ ĐỘNG ĐÓNG KHI CHỌN MENU
+        //  var menuItems = document.querySelector(#nav li a[href*="#"]);
+        //  console.log(menuItems);
+         var menuItems = document.querySelectorAll('#nav li a[href*="#"]');
+         for (var i = 0; i < menuItems.length ; i++) {
+             var menuItem = menuItems[i];
+              
+
+             menuItem.onclick = function(event) {
+                var isParentMenu = this.nextElementSibling && this.nextElementSibling.classList.contains('subnav');
+                // neu la parentmenu
+                if (isParentMenu) { 
+                    event.preventDefault();
+                } else {
+                    header.style.height = null;
+                }
+                
+             }
+         }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='/js/dependancies/bootstrap-select-1.12.4/dist/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/countrypicker.js')}}"></script>
+    <script src="{{url_for('static',filename='/js/main.js')}}"></script>
+</body>
+</html>

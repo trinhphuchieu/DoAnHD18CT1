@@ -1,0 +1,65 @@
+@media (min-width: 1024px) {
+
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+   
+}
+
+@media (max-width: 739px) {
+    #nav {
+        display: block;
+    } 
+    
+    #nav .subnav {
+        position: initial;
+        background-color: #333;
+    }
+
+    #nav .subnav a {
+        color: #fff;
+        padding:5px 40px;
+    }
+
+    #nav > li {
+        display: block;
+    }
+ 
+    #header {
+        overflow: hidden;
+    }
+
+    #header .search-btn {
+        display: none;
+    }
+
+    #header .mobile-menu-btn {
+        display: block;
+    }  
+    
+    #content .member-item {
+        width: 100%;
+    }
+
+    #content .member-img {
+        width: 60%;
+    }
+
+    #content .member-name {
+        margin-top: 35px;
+    }
+
+    .map-img {
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .col-half {
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .contact-form .form-control {
+        width: 99.5%;
+    }
+}
