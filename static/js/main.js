@@ -1,42 +1,10 @@
-var isCameraTurnOn = true
-function getVideoStream() {
-    //clearInterval(getResultDetection);
-    let videoStream = document.getElementById("videoStream");
-    let url = ""
-    if(isCameraTurnOn){
-        url = "/startVideo"
-        isCameraTurnOn = false;
-    }else{
-        url = "/stopVideo"
-        isCameraTurnOn = true;
-    }
-    fetch(url)
-    .then(response => {
-        videoStream.src ="/video_stream";
-        alert("Success");
-    })
-    .catch((error) => {
-        alert('Error:', error);
-    });;
-}
-
-
-
 // --------------------- video socket --------------------
+
 var socket = io('http://localhost:5000');
 socket.on('connect', function(){
-    console.log("Connection has been succesfully established with socket.", socket.connected)
+    console.log("Kết nối với socket thành công.", socket.connected)
 });
 const video = document.querySelector("#videoElement");
-// video.width = 1100; 
-// video.height = 450;
-/* <img class="video-heading" src="{{ url_for('video_stream') }}" id="videoStream">
-                    <button onclick="getStartCamera()">start</button>
-                    <button onclick="getStopCamera()">stop</button>
-*/
-{/* <video class="video-heading" autoplay="true" id="videoElement"></video>
-<canvas id="canvasOutput" style="display:none;"></canvas> */}
-
 function capture(video, scaleFactor) {
     if(scaleFactor == null){
         scaleFactor = 1;
@@ -51,6 +19,7 @@ function capture(video, scaleFactor) {
     return canvas;
 } 
 
+// hàm gửi frame video
 function sendRequestDetection(){
     var type = "image/jpg"
     var video_element = document.getElementById("videoElement")
@@ -60,24 +29,69 @@ function sendRequestDetection(){
     socket.emit('image', data);
 };
 
+// get data nhận diện khi livestream
 socket.on('response_back', function(result){
-    // const image_id = document.getElementById('image');
-    // image_id.src = image;
-    console.log(result);
+    if(isCamera){
+        return;
+    }
     const objResult = JSON.parse(result);
     if(objResult.is_money){
         console.log(objResult);
         getResultStreamVideo(numberWithCommas(objResult.money_price) + " " + objResult.currency, objResult.money_accuracy);
         getResultInfoMoneyStreamVideo(objResult.money_price,objResult.currency, JSON.parse(objResult.money_feature),objResult.money_size,objResult.money_type,objResult.country, objResult.money_release);
-        getConversionCurrency();
+        getListDetection(objResult.money_list);
+        try{
+            getConversionCurrency();
+        }catch(e){}
     }
     else{
-        getResultStreamVideo("No money", "100 %");
+        getResultStreamVideo("Không xác định", "100 %");
     }
 });
 
+function getListDetection(result){
+    console.log(result);
+    if(!result) return;
+    let listDetection = document.getElementById("listDetection");
+    listDetection.innerHTML = '';
+
+    let divItem;
+    let divItemInfo1;
+    let divItemInfo2;
+    let divItemInfo3;
+    debugger;
+    result.forEach( value => {
+
+        const infoMoney = JSON.parse(value);
+        const feature = JSON.parse(infoMoney.money_feature);
+        divItem = document.createElement('div');
+        divItem.classList.add("hangxacsuat");
+        
+        divItemInfo1 = document.createElement('div');
+        divItemInfo1.classList.add("hangxacsuatdau");
+        divItemInfo1.innerHTML = numberWithCommas(infoMoney.money_price)+ " " + infoMoney.currency;
+
+        divItemInfo2 = document.createElement('div');
+        divItemInfo2.classList.add("hangxacsuatgiua");
+        let img = document.createElement('img');
+        img.src = `/static/images${feature.hinhMatSau}.jpg`;
+        divItemInfo2.appendChild(img);
+
+        divItemInfo3 = document.createElement('div');
+        divItemInfo3.classList.add("hangxacsuatsau");
+        divItemInfo3.innerHTML = infoMoney.money_accuracy;
+
+        divItem.appendChild(divItemInfo1);
+        divItem.appendChild(divItemInfo2);
+        divItem.appendChild(divItemInfo3);
+        
+        listDetection.appendChild(divItem);
+    })
+}
 
 
+var intervalId;
+// bật camera
 function getStartCamera(){
     if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -87,29 +101,24 @@ function getStartCamera(){
             video.play();
             video.style.visibility = 'visible';
             const FPS = 30;
-            setInterval(sendRequestDetection,10000/FPS);
+            intervalId = setInterval(sendRequestDetection,10000/FPS);
         })
-        .catch(function (err0r) {
-            console.log(err0r);
-            console.log("Something went wrong!");
+        .catch(function (error) {
+            console.log(error);
         });
     }
 }
 
+// tắt camera
 function getStopCamera(){
     window.localStream.getTracks().forEach(function(track) {
         if (track.readyState == 'live' && track.kind === 'video') {
             track.stop();
             video.style.visibility = 'hidden';
-            clearInterval(sendRequestDetection);
+            clearInterval(intervalId);
         }
     });
 }
-
-
-
-
-
 
 // ---------------------------- Conversion currency ---------------------- 
 const currencyEl_one = document.getElementById('currency-one');
@@ -118,10 +127,9 @@ const currencyEl_two = document.getElementById('currency-two');
 const amountEl_two = document.getElementById('amount-two');
 const resultConversion = document.getElementById('resultConversion');
 const resultInfoConversion = document.getElementById('resultInfoConversion');
-//const rateEl = document.getElementById('rate');
 const swap = document.getElementById('swap');
 
-// Fetch exchange rates and update the DOM
+// tính toán kết quả chuyển đổi tiền tệ
 function calculate(isInputOne) {
     let currencyOne = currencyEl_one.value;
     let currencyTwo = currencyEl_two.value;
@@ -137,11 +145,9 @@ function calculate(isInputOne) {
     fetch(`https://api.exchangerate-api.com/v4/latest/${currencySend}`)
         .then(res => res.json())
         .then(data => {
-            // console.log(data);
             const rate = data.rates[currencyTwo];
             resultConversion.style="display:block";
             resultInfoConversion.style="display:block";
-            //rateEl.innerText = `1 ${currency_one} = ${rate} ${currency_two}`;
             if (isInputOne) {
                 amountEl_one.value = amountEl_one.value.replaceAll(",", "");
                 amountEl_two.value = numberWithCommas((parseFloat(amountEl_one.value) * rate).toFixed(2));
@@ -191,18 +197,16 @@ if(swap){
         calculate();
     });
 }
-
 calculate(true);
 // -------------------------------------------------- 
 
 
 
-//------------------- handle info streamVideo ---------------------------------
+//------------------- Xử lý streamVideo ---------------------------------
 
 // money detection
 var valueMoney = document.querySelector(".giatritien");
 var accuracyMoney = document.querySelector(".dochinhxac");
-
 // money info
 var quocgia = document.querySelector("#quocgia");
 var menhgia = document.querySelector("#menhgia");
@@ -213,49 +217,35 @@ var mauchudao = document.querySelector("#mauchudao");
 var namphathanh = document.querySelector("#namphathanh");
 var anhmattruoc = document.querySelector("#anhmattruoc");
 var anhmatsau = document.querySelector("#anhmatsau");
+
+// hàm hiển thị kết quả xác xuất video
 function getResultStreamVideo(value,accuracy){
     valueMoney.innerHTML = value;
     accuracyMoney.innerHTML = accuracy;
 }
 
-
+// hàm hiển thị thông tin tờ tiền
 function getResultInfoMoneyStreamVideo(value,accuracy,feature,size,type,country,date){
+    console.log(feature);
     quocgia.innerHTML= country;
     menhgia.innerHTML= numberWithCommas(value);
     donvi.innerHTML= accuracy;
     kichthuoc.innerHTML= size;
     loaitien.innerHTML = type;
-    mauchudao.innerHTML = feature.mauChuDao;
     namphathanh.innerHTML = date;
-    anhmattruoc.src = `/static/images${feature.hinhMatTruoc}.jpg`;
-    anhmatsau.src = `/static/images${feature.hinhMatSau}.jpg`;
+    if(feature.mauChuDao){
+        mauchudao.innerHTML = feature.mauChuDao;
+        anhmattruoc.src = `/static/images${feature.hinhMatTruoc}.jpg`;
+        anhmatsau.src = `/static/images${feature.hinhMatSau}.jpg`;
+        return;
+    }
+    mauchudao.innerHTML = "";
+    anhmattruoc.src = ``;
+    anhmatsau.src = ``;
 }
 
-
-// var getResultDetection = setInterval(() => {
-//     fetch("/streamResult")
-//         .then(response => {
-//             response.text().then(result => { 
-//                 //let result = t.split('-');
-//                 const objResult = JSON.parse(result);
-//                 if(objResult.is_money){
-//                     console.log(objResult);
-//                     getResultStreamVideo(numberWithCommas(objResult.money_price) + " " + objResult.currency, objResult.money_accuracy);
-//                     getResultInfoMoneyStreamVideo(objResult.money_price,objResult.currency, JSON.parse(objResult.money_feature),objResult.money_size,objResult.money_type,objResult.country, objResult.money_release);
-//                     getConversionCurrency();
-//                 }
-//                 else{
-//                     getResultStreamVideo("No money", "100 %");
-//                 }
-//             })
-//         });
-// }, 1000);
-
-
-
-
+// chuyển đổi tiền real time khi live camera
 var giatrichuyendoi = document.querySelector(".giatrichuyendoi");
-
 function getConversionCurrency() {
     let donvichuyendoi = document.querySelector("#donvichuyendoi");
 
@@ -273,63 +263,91 @@ function getConversionCurrency() {
         });
 }
 
-
-
-
 var btnVideo = document.getElementById("btnVideo");
 var btnImage = document.getElementById("btnImage");
-
-
 var isCamera = true;
+var isImage= true;
 btnVideo.addEventListener('click', function () {
     if(isCamera){
         isCamera = false;
+        isImage = true;
         btnVideo.innerHTML = 'VIDEO : BẬT';
+        clearInfoDetection();
+        turnOffDetectionImage();
+        getResultStreamVideo("","");
+        getResultInfoMoneyStreamVideo("","","","","","", "");
         getStartCamera();
         return; 
     }
+    clearInfoDetection();
     turnOffCamera();
 });
 
+// set khi nhận dạng hình ảnh
+function turnOnDetectionImage(){
+    btnImage.innerHTML = 'HÌNH ẢNH : BẬT';
+    document.getElementById("btnDetection").style = "display:inline-block";
+    document.getElementById("btnXacXuat").style = "display:none";
+    document.getElementById("upload-image").style = "display:block;";
+}
+function turnOffDetectionImage(){
+    btnImage.innerHTML = 'HÌNH ẢNH';
+    document.getElementById("upload-image").style = "display:none;";
+    document.getElementById("btnDetection").style = "display:none";
+    document.getElementById("btnXacXuat").style = "display:inline-block";
+}
 
-var isImage= true;
 btnImage.addEventListener('click', function () {
     turnOffCamera();
-    if(isImage){
-        isImage = false;
-        btnImage.innerHTML = 'HÌNH ẢNH : BẬT';
-        return; 
+    try{
+        if(isImage){
+            isImage = false;
+            clearInfoDetection();
+            turnOnDetectionImage();
+            turnOffCamera();
+            clearInterval(intervalId);
+            return; 
+        }
+        isImage = true;
+        clearInfoDetection();
+        turnOffDetectionImage();
+        turnOffCamera();
     }
-    btnImage.innerHTML = 'HÌNH ẢNH';
-    isImage = true;
+    catch(e){}
 });
 
-
+// tắt video
 function turnOffCamera(){
     btnVideo.innerHTML = 'VIDEO';
-    getStopCamera();
+    try{
+        getStopCamera();
+    }catch(e){}
     isCamera = true;
 }
 
-
+function clearInfoDetection(){
+    getResultStreamVideo("","");
+    getResultInfoMoneyStreamVideo("","","","","","", "");
+    document.querySelector(".giatrichuyendoi").innerHTML='';
+    document.getElementById("listDetection").innerHTML = "";
+}
 // -------------------------------------------------- 
 
-
-
-
-// FILE UPLOADS
+// HÌNH ẢNH
+var imageUpload = document.getElementById("image-upload");
 const dropZone = document.querySelector('#drop-zone');
 const imageRemove = document.querySelector('#imageRemove');
 var imageUploadDetection = document.getElementById("imageUploadDetection");
+var btnDetection = document.getElementById("btnDetection");
 const img = document.querySelector('#imageDetection');
-let p = document.querySelector('#textss')
+let p = document.querySelector('#textUpload');
 
 imageUploadDetection.addEventListener('change', function (e) {
     const clickFile = this.files[0];
     if (clickFile) {
         img.style = "display:block;";
         p.style = 'display: none';
-        imageRemove.style = "display:block;";
+        //imageRemove.style = "display:block;";
         const reader = new FileReader();
         reader.readAsDataURL(clickFile);
         reader.onloadend = function () {
@@ -350,13 +368,11 @@ imageRemove.addEventListener('click', (e) => {
     $('#imageDetection').hide();
     p.style = 'display: show';
     imageRemove.style = "display:none;";
-    console.log($('#myfile').val());
 });
 dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     img.style = "display:block;";
     let file = e.dataTransfer.files[0];
-    alert("hieu");
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function () {
@@ -367,5 +383,44 @@ dropZone.addEventListener('drop', (e) => {
         img.alt = file.name
     }
 });
+
+btnDetection.addEventListener('click', () => {
+    predictImage(img.src);
+    //loader1.style.display = "block";
+});
+
+// dự đoán ảnh
+function predictImage(image) {
+    //   aboutTheme.style.display = "block";
+    //   loader1.style.display = "none";
+    //   contentDectection.style.display = "block";
+    fetch("/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(image)
+      })
+        .then(resp => {
+          if (resp.ok)
+            resp.json().then(data => {
+                const objResult = JSON.parse(data);
+                if(objResult.is_money){
+                    getResultStreamVideo(numberWithCommas(objResult.money_price) + " " + objResult.currency, objResult.money_accuracy);
+                    getResultInfoMoneyStreamVideo(objResult.money_price,objResult.currency, JSON.parse(objResult.money_feature),objResult.money_size,objResult.money_type,objResult.country, objResult.money_release);
+                    try{
+                        getConversionCurrency();
+                    }catch(e){}
+                }
+                else{
+                    getResultStreamVideo("Không xác định", "100 %");
+                    document.querySelector(".giatrichuyendoi").innerHTML='';
+                }
+            });
+        })
+        .catch(err => {
+          console.log("Error : ", err.message);
+        });
+}
 
 

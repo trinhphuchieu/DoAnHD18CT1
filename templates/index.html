@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Band</title>
-    <link rel="icon" href="https://media.dau.edu.vn/Media/2_SVDAU/Images/dau-csv12982278-5-e.png" type="image/x-icon" />
+    <title>HĐ_18CT1</title>
+    <link rel="icon" href="/static/img/slider/hd.png" type="image/x-icon" />
     <link rel="stylesheet" href="{{url_for('static',filename='/fonts/themify-icons/themify-icons.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='/css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='/css/responsive.css')}}">
@@ -33,9 +33,9 @@
 
             <ul id="nav">
                 <li><a href="#" class="ti-home"> Trang chủ </a></li>
-                <li><a href="#tour" class="ti-video-camera"> Nhận dạng</a></li>
+                <li><a href="#nhan-dien" class="ti-video-camera"> Nhận diện</a></li>
                 
-                <li><a href="#contact" class="ti-control-shuffle"> Chuyển đổi</a></li>
+                <li><a href="#chuyen-doi" class="ti-control-shuffle"> Chuyển đổi</a></li>
                 <li>
                     <a href="#">
                         Nhiều hơn
@@ -107,7 +107,7 @@
 
         <div id="content">
             
-            <div id="tour" class="tour-section">
+            <div id="nhan-dien" class="tour-section">
                 <div class="content-section">
                     <h2 class="section-heading text-white">Nhận diện tiền Việt Nam</h2>
                     <p class="section-sub-heading text-white">Chọn hình thức nhận diện!</p>
@@ -118,6 +118,23 @@
                     <div class="form-video">
                         <div class="video-heading">
                         <video class="videoInsert" autoplay="true" id="videoElement"></video>
+                        <div id="upload-image">
+                            <div id="imageRemove"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img"
+                                    aria-label="dash circle fill" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    class="bi-dash-circle-fill rounded-circle pn-trash position-absolute mt-n2 mr-n2 p-1 b-icon bi text-danger"
+                                    style="font-size: 200%;">
+                                    <g>
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z">
+                                        </path>
+                                    </g>
+                                </svg></div>
+                            <div id="drop-zone">
+                                <!-- uploads -->
+                                <img id="imageDetection" src="" alt="">
+                                <p id="textUpload">Chọn hoặc thả ảnh tờ tiền vào vị trí này</p>
+                                <input type="file" id="imageUploadDetection" accept="image/*" style="display:none">
+                            </div>
+                        </div>
                         </div>
                         <canvas id="canvasOutput" style="display:none;"></canvas>
                         <div class="video-ketqua">
@@ -134,10 +151,11 @@
                                 <div class="dochinhxac">
 
                                 </div>
+
                                 <div class="button-ketqua">
                                     <button class="thongtintotien js-buy-tikets">Thông tin tờ tiền</button>
-                                    <button class="thongtintotien js-buy-tikets-s">
-                                        Thông tin xác suất</button>
+                                    <button class="thongtintotien" id="btnDetection">Nhận tiện tờ tiền</button>
+                                    <button class="thongtintotien js-buy-tikets-s" id="btnXacXuat">Thông tin xác suất</button>
                                 </div>
                             </div>
                             <div class="ketquachuyendoi">
@@ -162,7 +180,7 @@
                     
                 </div>
             </div>
-            <div id="contact" class="content-section">     
+            <div id="chuyen-doi" class="content-section">     
                 <h2 class="section-heading"><b>Chuyển đổi tiền tệ</b></h2>      
             </div>
         
@@ -205,14 +223,12 @@
                 
                 
             </div>
-            <p class="copyright">Powered by: <a href="">HĐ</a></p>
+            <p class="copyright">Nội dung thực hiện: <a href="">HĐ 18CT1 2022</a></p>
         </div>
 
         
     </div>
 
-    
-   
     <div class="modal js-modal">
         <div class="modal-container js-modal-container">
             <div class="modal-close js-modal-close">
@@ -322,71 +338,8 @@
                         Xác suất
                     </div>
                 </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        10.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-10.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
+                <div id="listDetection">
 
-                    </div>
-                </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        20.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-08.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
-
-                    </div>
-                </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        50.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-06.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
-
-                    </div>
-                </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        100.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-04.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
-
-                    </div>
-                </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        200.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348-02.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
-                        
-                    </div>
-                </div>
-                <div class="hangxacsuat">
-                    <div class="hangxacsuatdau">
-                        500.000VNĐ
-                    </div>
-                    <div class="hangxacsuatgiua">
-                        <img src="https://www.sbv.gov.vn/webcenter/cs/groups/cucphathanhkhoquy/documents/noidungtinh/c2j2/mdcy/~edisp/~export/SBVWEBAPP01SBV072320~3/338348.jpg" alt="">
-                    </div>
-                    <div class="hangxacsuatsau">
-
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -402,24 +355,25 @@
         const modal = document.querySelector('.js-modal')
         const modalClose = document.querySelector('.js-modal-close')
         const modalContainer =document.querySelector('.js-modal-container')
+        try{
+            function showBuyTickets() {
+                modal.classList.add('open')
+            }
+            
+            function hideBuyTickets() {
+                modal.classList.remove('open')
+            }
 
-        function showBuyTickets() {
-            modal.classList.add('open')
-        }
-        
-        function hideBuyTickets() {
-            modal.classList.remove('open')
-        }
+            for (const buyBnt of buyBnts) {
+                buyBnt.addEventListener('click', showBuyTickets)
+            }
 
-        for (const buyBnt of buyBnts) {
-            buyBnt.addEventListener('click', showBuyTickets)
-        }
-
-        modalClose.addEventListener('click', hideBuyTickets)
-        modal.addEventListener('click', hideBuyTickets)
-        modalContainer.addEventListener('click', function (event) {
-            event.stopPropagation()
-        })   
+            modalClose.addEventListener('click', hideBuyTickets)
+            modal.addEventListener('click', hideBuyTickets)
+            modalContainer.addEventListener('click', function (event) {
+                event.stopPropagation()
+            })
+        }catch (e) {}
 
 
 
@@ -429,22 +383,24 @@
         const modal2 = document.querySelector('.js-modal-s')
         const modalClose2 = document.querySelector('.js-modal-close-s')
         const modalContainer2 =document.querySelector('.js-modal-container-s')
-        function showBuyTickets1() {
-            modal2.classList.add('open')
-        }
-        
-        function hideBuyTickets1() {
-            modal2.classList.remove('open')
-        }
+        try{
+            function showBuyTickets1() {
+                modal2.classList.add('open')
+            }
+            
+            function hideBuyTickets1() {
+                modal2.classList.remove('open')
+            }
 
-        const buyBnts2 = document.querySelector('.js-buy-tikets-s')
-        buyBnts2.addEventListener('click',showBuyTickets1);
+            const buyBnts2 = document.querySelector('.js-buy-tikets-s')
+            buyBnts2.addEventListener('click',showBuyTickets1);
 
-        modalClose2.addEventListener('click', hideBuyTickets1)
-        modal2.addEventListener('click', hideBuyTickets1)
-        modalContainer2.addEventListener('click', function (event) {
-            event.stopPropagation()
-        }) 
+            modalClose2.addEventListener('click', hideBuyTickets1)
+            modal2.addEventListener('click', hideBuyTickets1)
+            modalContainer2.addEventListener('click', function (event) {
+                event.stopPropagation()
+            })
+        }catch(e) {}
 
 
         // slide 

@@ -69,7 +69,7 @@ html {
     /* width: 100%; */
     height: 64px;
     background-color: rgb(0, 0, 0);
-    z-index: 1;
+    z-index: 1000;
     box-shadow: 0px 5px 10px 0px #101010;
 }
 
@@ -111,7 +111,7 @@ html {
     left: 30px;
     top: 2px;
     background-image: url(../img/slider/hd.png);
-    z-index: 1;
+    z-index: 1001;
     background-size: cover;
     border: 1px solid;
     border-radius: 68px;
@@ -277,7 +277,7 @@ html {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 100px;
+    padding-top: 50px;
     float: none;
 }
 
@@ -500,14 +500,14 @@ html {
 #content .tour-section {
     width: 100%;
     height: 520px;
-    margin-bottom: 500px;
+    margin-bottom: 300px;
     background-image: url('../img/slider/32046.jpg');
 }
 
 .contact-content {
     
     margin: 30px;
-    margin-bottom: 400px;
+    margin-bottom: 150px;
 }
 
 
@@ -655,30 +655,33 @@ html {
 #footer {
     padding: 64px 16px;
     text-align: center;
-    background-color: rgb(228, 228, 228);
+    /* background-color: rgb(228, 228, 228); */
+    background-color:#000000;
+    color:white;
 }
 
 #footer .socials-list {
     font-size: 24px;
+    color:white;
 }
 
 #footer .socials-list a {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(248, 248, 248, 0.6);
     text-decoration: none;
 }
 
 #footer .socials-list a:hover {
-    color: rgba(0, 0, 0, 0.4);
+    color: rgba(144, 141, 141, 0.4);
 
 }
 
 #footer .copyright {
     margin-top: 15px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 254, 254, 0.6);
 }
 #footer .copyright a {
     margin-top: 15px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .modal {
@@ -1144,4 +1147,42 @@ html {
     width:100%;
     background-color: #F1F2F5;
     font-size:15px;
+}
+
+
+
+/* css image upload */
+
+#upload-image {
+    display: none;
+    height:450px;
+    padding: 10px;
+    margin:0 auto;
+    overflow: visible;
+    position: relative;
+    background-color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+#drop-zone {
+    max-width: 750px;
+    height: 430px;
+    margin: 0 auto;
+    border: 4px dashed black;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    box-shadow: 2px 2px 2px 2px #888888;
+}
+#imageRemove {
+    display: none;
+    position: absolute;
+    top: -17px;
+    right: -18px;
+}
+
+#btnDetection{
+    display: none;
 }
