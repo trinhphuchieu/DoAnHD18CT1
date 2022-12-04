@@ -1,8 +1,8 @@
-Bước 1: py -m venv env tạo môi trường
-Bước 2: .\env\Scripts\activate activate môi trường vời tạo
-Bước 3: py -m pip install -r requirements.txt cài đặt thư viện cho chương trình
+Bước 1: Chaỵ lệnh: "py -m venv env" tại cmd thư mục để tạo môi trường
+Bước 2: Chạy lệnh cmd ".\env\Scripts\activate" activate môi trường vừa tạo
+Bước 3: Chạy lệnh "py -m pip install -r requirements.txt" cài đặt thư viện cho chương trình
 Bước 4: Tạo database trên localhost bằng tệp trong folder hd_18ct1.sql
 	- Vào file app.py để config lại kết nối tới db. Hiện tại đang được config là app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/hd_18ct1"
 Bước 5: Chạy database
 Bước 6: Tải mô hình huấn luyện tại đây: https://drive.google.com/file/d/19l5Wy2pxL-4rV1-njbzEQSL6gQ6fERvo/view?usp=sharing và bỏ vào thư mục models
-Bước 7: py app.py chạy chương trình
+Bước 7: Chạy lệnh "py app.py" chạy chương trình
