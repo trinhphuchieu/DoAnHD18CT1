@@ -3,6 +3,6 @@ Bước 2: .\env\Scripts\activate activate môi trường vời tạo
 Bước 3: py -m pip install -r requirements.txt cài đặt thư viện cho chương trình
 Bước 4: Tạo database trên localhost bằng tệp trong folder hd_18ct1.sql
 	- Vào file app.py để config lại kết nối tới db. Hiện tại đang được config là app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/hd_18ct1"
-BUoccứ 5: Chạy database
-Bước 5: Tải mô hình huấn luyện tại đây: https://drive.google.com/file/d/19l5Wy2pxL-4rV1-njbzEQSL6gQ6fERvo/view?usp=sharing và bỏ vào thư mục models
-Bước 6: py app.py chạy chương trình
+Bước 5: Chạy database
+Bước 6: Tải mô hình huấn luyện tại đây: https://drive.google.com/file/d/19l5Wy2pxL-4rV1-njbzEQSL6gQ6fERvo/view?usp=sharing và bỏ vào thư mục models
+Bước 7: py app.py chạy chương trình
